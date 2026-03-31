@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monthly Contest — Episode Buddies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =====================
+       RESET & BASE
+    ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+    --navy:       #1B2A4A;
+    --deep-navy:  #0F1B33;
+    --blue:       #2E75B6;
+    --light-blue: #D5E8F0;
+    --gold:       #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-pale:  #FDF6E3;
+    --white:      #FFFFFF;
+    --off-white:  #F7F5F0;
+    --text-dark:  #0F1B33;
+    --text-mid:   #4A5568;
+    --text-light: #8896A6;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans:  'DM Sans', system-ui, sans-serif;
+  }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      font-size: 16px;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      line-height: 1.2;
+    }
+
+    em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    img { max-width: 100%; display: block; }
+
+    /* =====================
+       NAV
+    ===================== */
+    .nav {
+      position: sticky;
+      top: 0;
+      left: 0; right: 0;
+      z-index: 100;
+      background: var(--deep-navy);
+      border-bottom: 1px solid rgba(201,168,76,0.25);
+    }
+
+    .nav-inner {
+      margin: 0 auto;
+      padding: 0 48px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      height: 36px;
+      width: 36px;
+      object-fit: contain;
+    }
+
+    .nav-logo span {
+      font-family: var(--serif);
+      font-size: 17px;
+      color: var(--white);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--white);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .nav-cta {
+      background: var(--gold) !important;
+      color: var(--navy) !important;
+      font-weight: 600 !important;
+      padding: 9px 20px !important;
+      border-radius: 4px !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--gold-light) !important;
+    }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      border: none;
+      background: none;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav-mobile {
+      display: none; position: fixed; top: 68px; left: 0; right: 0; z-index: 99;
+      background: var(--deep-navy); border-bottom: 1px solid rgba(201,168,76,0.2);
+      flex-direction: column; padding: 16px 24px 24px; gap: 4px;
+    }
+
+    .nav-mobile.open { display: flex; }
+
+    .nav-mobile a {
+      font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75); text-decoration: none;
+      padding: 12px 16px; border-radius: 4px;
+      transition: color 0.2s, background 0.2s;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-mobile a:last-child { border-bottom: none; }
+    .nav-mobile a:hover { color: var(--gold); background: rgba(201,168,76,0.08); }
+
+    .nav-mobile .mob-cta {
+      margin-top: 12px; text-align: center; background: var(--gold);
+      color: var(--deep-navy); font-weight: 600; border-radius: 4px; border-bottom: none;
+    }
+
+    /* =====================
+       TICKER / MARQUEE
+    ===================== */
+    .ticker-wrap {
+      background: var(--gold);
+      overflow: hidden;
+      padding: 9px 0;
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker-scroll 28s linear infinite;
+    }
+
+    .ticker-track:hover { animation-play-state: paused; }
+
+    .ticker-item {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding: 0 40px;
+    }
+
+    .ticker-dot {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background: var(--navy);
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 40px;
+      opacity: 0.5;
+    }
+
+    @keyframes ticker-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* =====================
+       SECTION LABELS
+    ===================== */
+    .section-label {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 12px;
+    }
+
+    .section-label.light { color: rgba(255,255,255,0.5); }
+
+    /* =====================
+       BUTTONS
+    ===================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 26px;
+      border-radius: 7px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--navy);
+    }
+
+    .btn-primary:hover {
+      background: var(--navy-soft);
+      border-color: var(--navy-soft);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .btn-outline:hover {
+      background: var(--navy);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+      border-color: var(--gold);
+    }
+
+    .btn-gold:hover {
+      background: var(--gold-light);
+      border-color: var(--gold-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline-white {
+      background: transparent;
+      color: var(--white);
+      border-color: rgba(255,255,255,0.45);
+    }
+
+    .btn-outline-white:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--white);
+    }
+
+    /* =====================
+       HERO
+    ===================== */
+    .hero {
+      background: var(--deep-navy);
+      color: var(--white);
+      padding: 80px 32px 72px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(201,168,76,1) 79px, rgba(201,168,76,1) 80px),
+        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(201,168,76,1) 79px, rgba(201,168,76,1) 80px);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      color: var(--white);
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* =====================
+       THEME BANNER
+    ===================== */
+    .theme-banner {
+      background: var(--off-white);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 32px;
+      text-align: center;
+    }
+
+    .theme-banner-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .theme-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+
+    .theme-banner h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .theme-banner p {
+      color: var(--text-mid);
+      font-size: 0.95rem;
+    }
+
+    /* =====================
+       CONTENT SECTIONS
+    ===================== */
+    .section {
+      padding: 80px 32px;
+    }
+
+    .section-alt {
+      background: var(--off-white);
+    }
+
+    .section-dark {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .section-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      margin-bottom: 48px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .section-header.light h2 {
+      color: var(--white);
+    }
+
+    .section-header p {
+      color: var(--text-mid);
+      font-size: 1rem;
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .section-header.light p {
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* =====================
+       WHAT IS THE CONTEST
+    ===================== */
+    .what-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .what-text h2 {
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .what-text p {
+      color: var(--text-mid);
+      line-height: 1.75;
+      margin-bottom: 16px;
+      font-size: 1rem;
+    }
+
+    .what-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .stat-card .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .stat-card .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    /* =====================
+       DATES
+    ===================== */
+    .dates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .date-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .date-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-light);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      min-width: 26px;
+      padding-top: 2px;
+    }
+
+    .date-info h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 6px;
+    }
+
+    .date-info .date-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+
+    /* =====================
+       HOW TO ENTER
+    ===================== */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .step-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px 24px;
+    }
+
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-light);
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+    }
+
+    .step-card h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .step-card p {
+      color: var(--text-mid);
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+
+    /* =====================
+       RULES DROPDOWNS
+    ===================== */
+    .rules-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .rule-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--white);
+      overflow: hidden;
+    }
+
+    .rule-toggle {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-align: left;
+      gap: 16px;
+      transition: background 0.2s;
+    }
+
+    .rule-toggle:hover { background: var(--light-gray); }
+
+    .rule-toggle.open { background: var(--light-gray); }
+
+    .rule-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+
+    .rule-toggle.open .rule-icon { transform: rotate(45deg); }
+
+    .rule-body {
+      display: none;
+      padding: 0 22px 18px;
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    .rule-body.open { display: block; }
+
+    /* =====================
+       JUDGING CRITERIA
+    ===================== */
+    .criteria-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .criteria-card {
+      background: var(--navy);
+      border-radius: 12px;
+      padding: 26px 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .criteria-card::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(200,169,110,0.1);
+      pointer-events: none;
+    }
+
+    .criteria-card .c-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.72rem;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .criteria-card h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .criteria-card p {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.58);
+      line-height: 1.6;
+    }
+
+    .criteria-card.gold-card {
+      background: var(--gold);
+    }
+
+    .criteria-card.gold-card .c-num { color: var(--navy); opacity: 0.65; }
+    .criteria-card.gold-card h3 { color: var(--navy); }
+    .criteria-card.gold-card p { color: rgba(15,28,46,0.65); }
+
+    /* =====================
+       ENTRIES TABLE
+    ===================== */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    thead {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    thead th {
+      padding: 14px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: left;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+
+    tbody tr:hover { background: var(--light-gray); }
+
+    tbody td {
+      padding: 16px 20px;
+      color: var(--text-mid);
+      vertical-align: middle;
+    }
+
+    tbody td:first-child {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .genre-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      background: var(--light-gray);
+      color: var(--text-mid);
+      border: 1px solid var(--border);
+    }
+
+    .row-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.72rem;
+      color: var(--text-light);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    /* =====================
+       COUNTDOWN
+    ===================== */
+    .countdown-section {
+      background: var(--navy);
+      color: var(--white);
+      padding: 80px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .countdown-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(200,169,110,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .countdown-inner {
+      max-width: 740px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .countdown-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .c-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .c-meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .countdown-boxes {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+
+    .cd-box {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 24px 28px;
+      min-width: 100px;
+      text-align: center;
+    }
+
+    .cd-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .cd-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* =====================
+       LATEST RESULTS CTA
+    ===================== */
+    .results-cta {
+      text-align: center;
+      background: var(--off-white);
+      padding: 72px 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .results-cta-inner {
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    .results-cta h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+
+    .results-cta p {
+      color: var(--text-mid);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    /* =====================
+       FAQ ACCORDION
+    ===================== */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 800px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--white);
+      overflow: hidden;
+    }
+
+    .faq-toggle {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-align: left;
+      gap: 16px;
+      transition: background 0.2s;
+    }
+
+    .faq-toggle:hover { background: var(--light-gray); }
+    .faq-toggle.open { background: var(--light-gray); }
+
+    .faq-chevron {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s, border-color 0.2s;
+      color: var(--text-light);
+      font-size: 0.85rem;
+    }
+
+    .faq-toggle.open .faq-chevron {
+      transform: rotate(180deg);
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    .faq-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.3s;
+      padding: 0 22px;
+    }
+
+    .faq-body.open {
+      max-height: 400px;
+      padding: 0 22px 18px;
+    }
+
+    .faq-body p {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    /* =====================
+       FOOTER
+    ===================== */
+    .footer {
+      background: var(--deep-navy);
+      color: rgba(201,168,76,0.2);
+      padding: 64px 48px 32px;
+    }
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 48px; margin-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .footer-brand .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .footer-brand .footer-logo img { height: 34px; width: auto; }
+
+    .footer-brand .footer-logo span {
+      font-family: var(--serif);
+      font-size: 17px;
+      color: var(--white);
+    }
+
+    .footer-brand p {
+      font-size: 13px;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 22px;
+      max-width: 280px;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+    }
+
+    .footer-socials a {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      transition: border-color 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+
+    .footer-socials a:hover {
+      background: var(--gold);
+      color: var(--gold);
+    }
+
+    .footer-col h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: block;
+      flex-direction: column;
+      gap: 9px;
+      
+    }
+
+    .footer-col ul a {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.55);
+      transition: color 0.2s;
+    }
+
+    .footer-col ul a:hover { color: var(--white); }
+
+    .footer-contact p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 5px;
+      line-height: 1.7;
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.2);
+    }
+
+    .footer-bottom em {
+      font-family: var(--serif); font-size: 13px;
+      font-style: italic;
+      color: rgba(201,168,76,0.45);
+    }
+
+    /* =====================
+       RESPONSIVE
+    ===================== */
+    @media (max-width: 900px) {
+      .what-grid { grid-template-columns: 1fr; }
+
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+      }
+
+      .footer-brand { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
+      .section { padding: 56px 20px; }
+      .hero { padding: 60px 20px 56px; }
+      .ticker-wrap { padding: 8px 0; }
+
+      .criteria-grid { grid-template-columns: 1fr 1fr; }
+
+      .steps-grid { grid-template-columns: 1fr; }
+      .dates-grid { grid-template-columns: 1fr; }
+
+      .countdown-boxes { gap: 10px; }
+      .cd-box { min-width: 75px; padding: 18px 16px; }
+      .cd-num { font-size: 2rem; }
+
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 6px; }
+
+      .hero-buttons { flex-direction: column; align-items: center; }
+    }
+
+    @media (max-width: 420px) {
+      .criteria-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAV ===== -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/03/buddies-logo.png?w=300" alt="Episode Buddies" />
+        <span>Episode Buddies</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="drive.html">Drive</a></li>
+        <li><a href="team.html">Team</a></li>
+        <li><a href="shelf.html">Contest Winners</a></li>
+        <li><a href="library.html">Library</a></li>
+        <li><a href="services.html" class="nav-cta">Request a Service</a></li>
+      </ul>
+
+      <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="drive.html">Drive</a>
+      <a href="team.html">Team</a>
+      <a href="shelf.html">Contest Winners</a>
+      <a href="library.html">Buddies Library</a>
+      <a href="services.html" class="mob-cta">Request a Service</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="section-label light">Buddies Support Hub</span>
+      <h1>Monthly <em>Contest</em></h1>
+      <p>Every month, the community comes together to discover, celebrate, and spotlight stories that deserve to be read. One theme. Ten stories. Your chance to shine.</p>
+      <div class="hero-buttons">
+        <a href="https://www.instagram.com/episode_buddies/" target="_blank" class="btn btn-gold">Follow on Instagram</a>
+        <a href="#current-entries" class="btn btn-outline-white">View Current Entries</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TICKER ===== -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">Her Story, Her Power</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Monthly Contest · March 2026</span><span class="ticker-dot"></span>
+      <span class="ticker-item">10 Entries · Results 31st March</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Free · Community · Open to All Genres</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Score 90+ to Qualify for SOTY 2026</span><span class="ticker-dot"></span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item">Her Story, Her Power</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Monthly Contest · March 2026</span><span class="ticker-dot"></span>
+      <span class="ticker-item">10 Entries · Results 31st March</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Free · Community · Open to All Genres</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Score 90+ to Qualify for SOTY 2026</span><span class="ticker-dot"></span>
+    </div>
+  </div>
+
+  <!-- ===== CURRENT THEME BANNER ===== -->
+  <div class="theme-banner">
+    <div class="theme-banner-inner">
+      <div class="theme-badge">Current Theme</div>
+      <h2>Her Story, <em>Her Power</em></h2>
+      <p>March 2026 · All genres welcome · Winner announced 31st March</p>
+    </div>
+  </div>
+
+  <!-- ===== WHAT IS THE CONTEST ===== -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="what-grid">
+        <div class="what-text">
+          <span class="section-label">What We Offer</span>
+          <h2>A space where every story <em>deserves</em> to be found.</h2>
+          <p>The Buddies Monthly Contest is our way of turning the spotlight toward stories that might otherwise go unnoticed. Each month we open the floor to the community, take nominations, and judge the top entries against a consistent, fair set of criteria.</p>
+          <p>Whether you write romance, drama, thriller, or fantasy; if your story is good, this contest is your platform. Winners earn recognition, a shelf feature, and automatic qualification for SOTY 2026.</p>
+          <a href="https://www.instagram.com/episode_buddies/" target="_blank" class="btn btn-primary" style="margin-top:8px;">Follow for Updates</a>
+        </div>
+        <div class="what-stats">
+          <div class="stat-card">
+            <div class="stat-num">8</div>
+            <div class="stat-label">Contests Per Season</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">10</div>
+            <div class="stat-label">Stories Per Round</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">90+</div>
+            <div class="stat-label">Score for SOTY Entry</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">Free</div>
+            <div class="stat-label">Always, For Everyone</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== IMPORTANT DATES ===== -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-label">March 2026</span>
+        <h2>Important <em>Dates</em></h2>
+        <p>Mark these in your calendar. The nomination window is short, only 24 hours; so staying up to date matters.</p>
+      </div>
+      <div class="dates-grid">
+        <div class="date-card">
+          <div class="date-num">01</div>
+          <div class="date-info">
+            <h3>Announcement</h3>
+            <div class="date-value">14th March 2026</div>
+          </div>
+        </div>
+        <div class="date-card">
+          <div class="date-num">02</div>
+          <div class="date-info">
+            <h3>Nomination Window</h3>
+            <div class="date-value">24 Hours from Announcement</div>
+          </div>
+        </div>
+        <div class="date-card">
+          <div class="date-num">03</div>
+          <div class="date-info">
+            <h3>Winner Announcement</h3>
+            <div class="date-value">31st March 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW TO ENTER ===== -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-label">How It Works</span>
+        <h2>How to <em>Enter</em></h2>
+        <p>Entry is community-driven and completely free. Here's how the process works from start to finish.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <h3>Follow Our Instagram</h3>
+          <p>All contest announcements are posted on <strong>@episode_buddies</strong>. That's where every nomination call goes up. Turn on notifications so you don't miss the window.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <h3>Solicit Nominations</h3>
+          <p>Authors do not enter directly. Ask your readers, followers, or community to nominate your story in the comments of our Instagram nomination post. The more nominations, the better your chances.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <h3>Make the Top 10</h3>
+          <p>The 10 most-nominated eligible stories go forward to the judging round. Our team evaluates each one using our full judging rubric.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">04</div>
+          <h3>Results Are Announced</h3>
+          <p>Winners are revealed on our Instagram. The top 5 stories earn a spot on the <strong>EB Shelf</strong> and the winner qualifies automatically for SOTY 2026.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RULES & ELIGIBILITY ===== -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start;">
+        <div>
+          <span class="section-label">Rules &amp; Eligibility</span>
+          <h2 style="font-size:clamp(1.7rem,3vw,2.4rem);color:var(--navy);margin-bottom:14px;">What makes a story <em>eligible</em>?</h2>
+          <p style="color:var(--text-mid);font-size:0.95rem;line-height:1.75;margin-bottom:20px;">We keep our rules straightforward. Read through each one before nominating or asking someone to nominate your story. If you have a question not covered here, send us a message.</p>
+          <a href="https://www.instagram.com/episode_buddies/" target="_blank" class="btn btn-outline">Ask Us on Instagram</a>
+        </div>
+        <div class="rules-list" id="rules-list">
+          <div class="rule-item">
+            <button class="rule-toggle" data-target="r1">
+              <span>250k view limit</span>
+              <div class="rule-icon">+</div>
+            </button>
+            <div class="rule-body" id="r1">
+              Stories must have fewer than or equal to 250,000 story views to be eligible. Stories above this threshold will not be accepted into the contest.
+            </div>
+          </div>
+          <div class="rule-item">
+            <button class="rule-toggle" data-target="r2">
+              <span>No recent contest repeats</span>
+              <div class="rule-icon">+</div>
+            </button>
+            <div class="rule-body" id="r2">
+              Stories that have entered any Buddies contest within the last 12 months are not eligible. This keeps the competition fresh and gives new stories their moment.
+            </div>
+          </div>
+          <div class="rule-item">
+            <button class="rule-toggle" data-target="r3">
+              <span>Not previously shelf-featured</span>
+              <div class="rule-icon">+</div>
+            </button>
+            <div class="rule-body" id="r3">
+              Stories that have already been featured on the EB Shelf are not eligible to enter again. This ensures our spotlight reaches as many new stories as possible.
+            </div>
+          </div>
+          <div class="rule-item">
+            <button class="rule-toggle" data-target="r4">
+              <span>24-hour nomination deadline</span>
+              <div class="rule-icon">+</div>
+            </button>
+            <div class="rule-body" id="r4">
+              Nominations are only open for 24 hours after the nomination post goes live on Instagram. Any nominations submitted after the window closes will not be counted.
+            </div>
+          </div>
+          <div class="rule-item">
+            <button class="rule-toggle" data-target="r5">
+              <span>Open to all genres (non-themed)</span>
+              <div class="rule-icon">+</div>
+            </button>
+            <div class="rule-body" id="r5">
+              For contests without a specified genre restriction, stories from any genre are welcome to enter. Themed contests (like Her Story, Her Power) may have additional creative guidance.
+            </div>
+          </div>
+          <div class="rule-item">
+            <button class="rule-toggle" data-target="r6">
+              <span>At least 3 published episodes</span>
+              <div class="rule-icon">+</div>
+            </button>
+            <div class="rule-body" id="r6">
+              Your story must have a minimum of three published or available episodes at the time of nomination. Stories with only one or two episodes will not be accepted.
+            </div>
+          </div>
+          <div class="rule-item">
+            <button class="rule-toggle" data-target="r7">
+              <span>Active or completed stories only</span>
+              <div class="rule-icon">+</div>
+            </button>
+            <div class="rule-body" id="r7">
+              Stories that have not been updated in more than one year are not eligible, unless the story is marked as completed. Completed stories are always welcome regardless of last update date.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== JUDGING CRITERIA ===== -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-label">Judging Criteria</span>
+        <h2>What we <em>judge</em> on.</h2>
+        <p>Every entry is reviewed against the same criteria by our judging team. Here's exactly what we look for.</p>
+      </div>
+      <div class="criteria-grid">
+        <div class="criteria-card">
+          <div class="c-num">01</div>
+          <h3>First Impression</h3>
+          <p>How does the story open? Does the cover, title, and opening chapter pull you in immediately?</p>
+        </div>
+        <div class="criteria-card">
+          <div class="c-num">02</div>
+          <h3>Theme Fit</h3>
+          <p>For themed contests, how well does the story embody and explore the contest theme?</p>
+        </div>
+        <div class="criteria-card">
+          <div class="c-num">03</div>
+          <h3>Directing</h3>
+          <p>The quality of scene composition, camera use, overlays, and overall visual storytelling.</p>
+        </div>
+        <div class="criteria-card">
+          <div class="c-num">04</div>
+          <h3>Plot</h3>
+          <p>How engaging, original, and well-structured is the story's narrative arc and pacing?</p>
+        </div>
+        <div class="criteria-card">
+          <div class="c-num">05</div>
+          <h3>Interactivity</h3>
+          <p>How meaningfully does the story incorporate reader choices and decision points?</p>
+        </div>
+        <div class="criteria-card gold-card">
+          <div class="c-num">+</div>
+          <h3>Additional Criteria</h3>
+          <p>Grammar &amp; writing quality · Use of sound and music · Diversity &amp; representation · Character development</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CURRENT ENTRIES ===== -->
+  <section class="section section-alt" id="current-entries">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-label">Her Story, Her Power · March 2026</span>
+        <h2>Current <em>Entries</em></h2>
+        <p>Ten stories nominated by the community. Results will be announced on 31st March 2026.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Genre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="row-num">01</span></td>
+              <td>Below The Belts</td>
+              <td>@crissywritess</td>
+              <td><span class="genre-badge">Romance</span></td>
+            </tr>
+            <tr>
+              <td><span class="row-num">02</span></td>
+              <td>Bougainvillea Lies</td>
+              <td>@blueytales</td>
+              <td><span class="genre-badge">Drama</span></td>
+            </tr>
+            <tr>
+              <td><span class="row-num">03</span></td>
+              <td>Daylight Savings</td>
+              <td>@runeslocket_</td>
+              <td><span class="genre-badge">Thriller</span></td>
+            </tr>
+            <tr>
+              <td><span class="row-num">04</span></td>
+              <td>Exonerate Me</td>
+              <td>@octeasesn</td>
+              <td><span class="genre-badge">Drama</span></td>
+            </tr>
+            <tr>
+              <td><span class="row-num">05</span></td>
+              <td>Eyes Without A Face</td>
+              <td>@epi.beiia</td>
+              <td><span class="genre-badge">Drama</span></td>
+            </tr>
+            <tr>
+              <td><span class="row-num">06</span></td>
+              <td>House Of Hearts</td>
+              <td>@talina.writes</td>
+              <td><span class="genre-badge">Fantasy</span></td>
+            </tr>
+            <tr>
+              <td><span class="row-num">07</span></td>
+              <td>Out Of Tone</td>
+              <td>@sincerelyursolivia</td>
+              <td><span class="genre-badge">Adventure</span></td>
+            </tr>
+            <tr>
+              <td><span class="row-num">08</span></td>
+              <td>Seasons In The Sun</td>
+              <td>@kitty.episodee</td>
+              <td><span class="genre-badge">LGBTQ+</span></td>
+            </tr>
+            <tr>
+              <td><span class="row-num">09</span></td>
+              <td>Shadow Star</td>
+              <td>@jadecollins.episode</td>
+              <td><span class="genre-badge">Drama</span></td>
+            </tr>
+            <tr>
+              <td><span class="row-num">10</span></td>
+              <td>Sold To The Mafia Queen</td>
+              <td>@episode_carter_</td>
+              <td><span class="genre-badge">LGBTQ+</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEXT CONTEST COUNTDOWN ===== -->
+  <section class="countdown-section">
+    <div class="countdown-inner">
+      <span class="section-label light">Coming Up Next</span>
+      <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:16px;color:var(--white);">Hidden Gems <em>Spotlight</em></h2>
+      <p style="color:rgba(255,255,255,0.62);font-size:1rem;margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7;">The next contest is just around the corner. Open to all genres.</p>
+
+      <div class="countdown-meta">
+        <div class="c-meta-item"><div class="c-meta-dot"></div> Announced 4th April 2026</div>
+        <div class="c-meta-item"><div class="c-meta-dot"></div> Open to All Genres</div>
+        <div class="c-meta-item"><div class="c-meta-dot"></div> Theme: Hidden Gems Spotlight</div>
+      </div>
+
+      <div class="countdown-boxes">
+        <div class="cd-box">
+          <span class="cd-num" id="cd-days">--</span>
+          <div class="cd-label">Days</div>
+        </div>
+        <div class="cd-box">
+          <span class="cd-num" id="cd-hours">--</span>
+          <div class="cd-label">Hours</div>
+        </div>
+        <div class="cd-box">
+          <span class="cd-num" id="cd-mins">--</span>
+          <div class="cd-label">Minutes</div>
+        </div>
+        <div class="cd-box">
+          <span class="cd-num" id="cd-secs">--</span>
+          <div class="cd-label">Seconds</div>
+        </div>
+      </div>
+
+      <a href="https://www.instagram.com/episode_buddies/" target="_blank" class="btn btn-gold">Follow for the Announcement</a>
+    </div>
+  </section>
+
+  <!-- ===== LATEST RESULTS CTA ===== -->
+  <section class="results-cta">
+    <div class="results-cta-inner">
+      <span class="section-label">Contest Winners</span>
+      <h2>See the <em>Latest Results</em></h2>
+      <p>The EB Shelf features the top five stories from our most recent contest - winner, runner-up, and placements 3 through 5. Updated after every round.</p>
+      <a href="shelf.html" class="btn btn-primary">View the EB Shelf</a>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <div style="display:grid; grid-template-columns:1fr 2fr; gap:64px; align-items:start;">
+        <div>
+          <span class="section-label">FAQ</span>
+          <h2 style="font-size:clamp(1.7rem,3vw,2.4rem);color:var(--navy);margin-bottom:14px;">Monthly Contest <em>FAQ</em></h2>
+          <p style="color:var(--text-mid);font-size:0.9rem;line-height:1.75;">Everything you need to know before you enter. Can't find your answer? Send us a message on Instagram.</p>
+        </div>
+        <div class="faq-list" id="faq-list">
+
+          <div class="faq-item">
+            <button class="faq-toggle" data-faq="f1">
+              <span>How do I enter the contest?</span>
+              <div class="faq-chevron">&#8964;</div>
+            </button>
+            <div class="faq-body" id="f1">
+              <p>You don't enter directly. Authors need to <strong>solicit nominations</strong> from their readers or community. When we post our nomination call on Instagram (@episode_buddies), your supporters comment your story in the post. The 10 most-nominated eligible stories go to judging.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-toggle" data-faq="f2">
+              <span>Can any genre join?</span>
+              <div class="faq-chevron">&#8964;</div>
+            </button>
+            <div class="faq-body" id="f2">
+              <p>For non-genre-specific contests, yes - any genre is welcome. Themed contests may have creative prompts rather than genre restrictions. Always check the announcement post for the specific rules of that month's contest.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-toggle" data-faq="f3">
+              <span>Can I enter a story that was in a previous contest?</span>
+              <div class="faq-chevron">&#8964;</div>
+            </button>
+            <div class="faq-body" id="f3">
+              <p>Not if it entered within the last 12 months. Stories that have been in a Buddies contest within the past year are not eligible. After that 12-month period, the story may be nominated again.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-toggle" data-faq="f4">
+              <span>What if my story has more than 250k views?</span>
+              <div class="faq-chevron">&#8964;</div>
+            </button>
+            <div class="faq-body" id="f4">
+              <p>Unfortunately it would not be eligible. The 250k view cap is in place to keep the contest fair and give smaller, lesser-known stories an equal chance. Stories above this threshold will be removed from the pool regardless of nomination count.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-toggle" data-faq="f5">
+              <span>Do completed stories qualify?</span>
+              <div class="faq-chevron">&#8964;</div>
+            </button>
+            <div class="faq-body" id="f5">
+              <p>Yes. Completed stories are always eligible, even if they haven't been updated in over a year. The one-year inactivity rule only applies to ongoing (incomplete) stories.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-toggle" data-faq="f6">
+              <span>What if my story only has 1 or 2 episodes?</span>
+              <div class="faq-chevron">&#8964;</div>
+            </button>
+            <div class="faq-body" id="f6">
+              <p>Stories must have at least three published episodes to be eligible. A story with only one or two episodes won't have enough content for our team to fairly evaluate it, so it will not be accepted into the contest.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-toggle" data-faq="f7">
+              <span>How are winners chosen?</span>
+              <div class="faq-chevron">&#8964;</div>
+            </button>
+            <div class="faq-body" id="f7">
+              <p>The top 10 nominated eligible stories are judged by our team using a structured rubric. Criteria include First Impression, Theme Fit, Directing, Plot, Interactivity, Grammar, Use of Sound, Diversity, and Character Development. Stories are scored independently and ranked by total score.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-toggle" data-faq="f8">
+              <span>Can I nominate my own story?</span>
+              <div class="faq-chevron">&#8964;</div>
+            </button>
+            <div class="faq-body" id="f8">
+              <p>Yes. Self-nominations are accepted. Entry is not through community nomination alone; your readers, followers, or supporters commenting your story on the nomination post. Authors can nominate themselves.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-toggle" data-faq="f9">
+              <span>Where do I ask more questions?</span>
+              <div class="faq-chevron">&#8964;</div>
+            </button>
+            <div class="faq-body" id="f9">
+              <p>Send us a DM on Instagram at <strong>@episode_buddies</strong> or reach us via email at <strong>episodebuddies3@gmail.com</strong>. We're available Sunday through Saturday, 6:00 AM – 10:00 PM GMT+1.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/03/buddies-logo.png?w=300" alt="Episode Buddies" />
+            <span>Episode Buddies</span>
+          </div>
+          <p>Uplifting Episode authors through free community services, monthly contests, and the most celebrated annual competitions on the platform.</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/episode_buddies/" target="_blank" aria-label="Instagram">IG</a>
+            <a href="https://www.threads.net/@episode_buddies" target="_blank" aria-label="Threads">TH</a>
+            <a href="mailto:episodebuddies3@gmail.com" aria-label="Email">✉</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="drive.html">Drive</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="shelf.html">Contest Winners</a></li>
+            <li><a href="library.html">Buddies Library</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Competitions</h4>
+          <ul>
+            <li><a href="https://episodebuddiessoty.netlify.app/soty-2025.html">SOTY 2025</a></li>
+            <li><a href="https://episodebuddiessoty.netlify.app/aoty-2025.html">AOTY 2025</a></li>
+            <li><a href="hall-of-fame.html">Hall of Fame</a></li>
+            <li><a href="contest.html">Monthly Contests</a></li>
+            <li><a href="https://www.notion.so/be6ae8b7f3624f249689692914a80976?v=2f77df7eb2ce4583a31842e6651d1b8a&source=copy_link">Contest Schedule</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col footer-contact">
+          <h4>Contact</h4>
+          <p>episodebuddies3@gmail.com</p>
+          <p>Sunday – Saturday</p>
+          <p>6:00 AM – 10:00 PM GMT+1</p>
+          <p style="margin-top:6px;">@episode_buddies</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2025 Buddies Support Hub · All rights reserved.</p>
+        <p><em>"Where great stories find the spotlight they deserve."</em></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    // --- Hamburger ---
+    const hamburger = document.getElementById('hamburger');
+    const navMobile = document.getElementById('nav-mobile');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navMobile.classList.toggle('open');
+    });
+
+    // --- Rules dropdowns (multiple can open simultaneously) ---
+    document.querySelectorAll('#rules-list .rule-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        const body = document.getElementById(targetId);
+        const isOpen = body.classList.contains('open');
+        body.classList.toggle('open');
+        btn.classList.toggle('open', !isOpen);
+      });
+    });
+
+    // --- FAQ accordion (only one open at a time) ---
+    document.querySelectorAll('#faq-list .faq-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-faq');
+        const body = document.getElementById(targetId);
+        const isOpen = body.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('#faq-list .faq-body').forEach(b => b.classList.remove('open'));
+        document.querySelectorAll('#faq-list .faq-toggle').forEach(b => b.classList.remove('open'));
+
+        // Open clicked if it was closed
+        if (!isOpen) {
+          body.classList.add('open');
+          btn.classList.add('open');
+        }
+      });
+    });
+
+    // --- Countdown Timer (target: 4th April 2026 00:00:00 local) ---
+    const target = new Date('2026-04-04T00:00:00');
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = target - now;
+
+      if (diff <= 0) {
+        document.getElementById('cd-days').textContent = '00';
+        document.getElementById('cd-hours').textContent = '00';
+        document.getElementById('cd-mins').textContent = '00';
+        document.getElementById('cd-secs').textContent = '00';
+        return;
+      }
+
+      const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs  = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('cd-days').textContent  = String(days).padStart(2, '0');
+      document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('cd-mins').textContent  = String(mins).padStart(2, '0');
+      document.getElementById('cd-secs').textContent  = String(secs).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>
