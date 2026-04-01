@@ -42,11 +42,14 @@
       overflow-x: hidden;
     }
 
-    h1, h2, h3, h4 {
+    h1, h2, h3 {
       font-family: 'Playfair Display', serif;
       line-height: 1.2;
     }
-
+    h4 {
+      font-family: var(--sans);
+      line-height: 1.2;
+    }
     em {
       font-style: italic;
       color: var(--gold);
@@ -59,129 +62,62 @@
     /* =====================
        NAV
     ===================== */
-    .nav {
-      position: sticky;
-      top: 0;
-      left: 0; right: 0;
-      z-index: 100;
-      background: var(--deep-navy);
-      border-bottom: 1px solid rgba(201,168,76,0.25);
-    }
-
-    .nav-inner {
-      margin: 0 auto;
-      padding: 0 48px;
-      height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-    }
-
-    .nav-logo img {
-      height: 36px;
-      width: 36px;
-      object-fit: contain;
-    }
-
-    .nav-logo span {
-      font-family: var(--serif);
-      font-size: 17px;
-      color: var(--white);
-      letter-spacing: 0.02em;
-      white-space: nowrap;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: rgba(255,255,255,0.75);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 8px 14px;
-      border-radius: 4px;
-      text-decoration: none;
-      transition: color 0.2s, background 0.2s;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--white);
-      background: rgba(255,255,255,0.08);
-    }
-
-    .nav-cta {
-      background: var(--gold) !important;
-      color: var(--navy) !important;
-      font-weight: 600 !important;
-      padding: 9px 20px !important;
-      border-radius: 4px !important;
-    }
-
-    .nav-cta:hover {
-      background: var(--gold-light) !important;
-    }
-
-    .nav-hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      cursor: pointer;
-      padding: 8px;
-      border: none;
-      background: none;
-    }
-
-    .nav-hamburger span {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--white);
-      border-radius: 2px;
-      transition: transform 0.3s, opacity 0.3s;
-    }
-
-    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    .nav-mobile {
-      display: none; position: fixed; top: 68px; left: 0; right: 0; z-index: 99;
-      background: var(--deep-navy); border-bottom: 1px solid rgba(201,168,76,0.2);
-      flex-direction: column; padding: 16px 24px 24px; gap: 4px;
-    }
-
-    .nav-mobile.open { display: flex; }
-
-    .nav-mobile a {
-      font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
-      color: rgba(255,255,255,0.75); text-decoration: none;
-      padding: 12px 16px; border-radius: 4px;
-      transition: color 0.2s, background 0.2s;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .nav-mobile a:last-child { border-bottom: none; }
-    .nav-mobile a:hover { color: var(--gold); background: rgba(201,168,76,0.08); }
-
-    .nav-mobile .mob-cta {
-      margin-top: 12px; text-align: center; background: var(--gold);
-      color: var(--deep-navy); font-weight: 600; border-radius: 4px; border-bottom: none;
-    }
+    nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--deep-navy);
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 68px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-logo img { height: 36px; width: 36px; object-fit: contain; }
+  .nav-logo-text { font-family: var(--serif); font-size: 17px; color: var(--white); letter-spacing: 0.02em; }
+  .nav-links { display: flex; align-items: center; gap: 6px; }
+  .nav-links a {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.75); text-decoration: none;
+    padding: 8px 14px; border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); background: rgba(201,168,76,0.08); }
+  .nav-cta {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--deep-navy); background: var(--gold);
+    padding: 9px 20px; border-radius: 4px; text-decoration: none;
+    transition: background 0.2s; margin-left: 12px;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+  .nav-hamburger {
+    display: none; flex-direction: column; justify-content: center;
+    gap: 5px; cursor: pointer; padding: 8px; background: none; border: none;
+  }
+  .nav-hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: rgba(255,255,255,0.8);
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu {
+    display: none; position: fixed; top: 68px; left: 0; right: 0; z-index: 99;
+    background: var(--deep-navy); border-bottom: 1px solid rgba(201,168,76,0.2);
+    flex-direction: column; padding: 16px 24px 24px; gap: 4px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(255,255,255,0.75); text-decoration: none;
+    padding: 12px 16px; border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover { color: var(--gold); background: rgba(201,168,76,0.08); }
+  .mobile-menu .mobile-cta {
+    margin-top: 12px; text-align: center; background: var(--gold);
+    color: var(--deep-navy); font-weight: 600; border-radius: 4px; border-bottom: none;
+  }
 
     /* =====================
        TICKER / MARQUEE
@@ -977,123 +913,42 @@
     /* =====================
        FOOTER
     ===================== */
-    .footer {
-      background: var(--deep-navy);
-      color: rgba(201,168,76,0.2);
-      padding: 64px 48px 32px;
-    }
-    .footer-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-    }
-    .footer-top {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 48px;
-      padding-bottom: 48px; margin-bottom: 32px;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-    }
-
-    .footer-brand .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .footer-brand .footer-logo img { height: 34px; width: auto; }
-
-    .footer-brand .footer-logo span {
-      font-family: var(--serif);
-      font-size: 17px;
-      color: var(--white);
-    }
-
-    .footer-brand p {
-      font-size: 13px;
-      line-height: 1.75;
-      color: rgba(255,255,255,0.35);
-      margin-bottom: 22px;
-      max-width: 280px;
-    }
-
-    .footer-socials {
-      display: flex;
-      gap: 10px;
-    }
-
-    .footer-socials a {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.5);
-      transition: border-color 0.2s, color 0.2s;
-      text-decoration: none;
-    }
-
-    .footer-socials a:hover {
-      background: var(--gold);
-      color: var(--gold);
-    }
-
-    .footer-col h4 {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 18px;
-    }
-
-    .footer-col ul {
-      list-style: none;
-      display: block;
-      flex-direction: column;
-      gap: 9px;
-      
-    }
-
-    .footer-col ul a {
-      font-size: 0.875rem;
-      color: rgba(255,255,255,0.55);
-      transition: color 0.2s;
-    }
-
-    .footer-col ul a:hover { color: var(--white); }
-
-    .footer-contact p {
-      font-size: 13px;
-      color: rgba(255,255,255,0.3);
-      margin-bottom: 5px;
-      line-height: 1.7;
-    }
-
-    .footer-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding-top: 28px;
-      flex-wrap: wrap;
-    }
-
-    .footer-bottom p {
-      font-size: 12px;
-      color: rgba(255,255,255,0.2);
-    }
-
-    .footer-bottom em {
-      font-family: var(--serif); font-size: 13px;
-      font-style: italic;
-      color: rgba(201,168,76,0.45);
-    }
+    footer {
+    background: var(--deep-navy);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    padding: 64px 48px 32px;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;
+    padding-bottom: 48px; margin-bottom: 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .footer-brand-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .footer-brand-logo img { height: 34px; }
+  .footer-brand-logo span { font-family: var(--serif); font-size: 17px; color: var(--white); }
+  .footer-brand-desc { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.35); max-width: 280px; margin-bottom: 22px; }
+  .footer-social { display: flex; gap: 10px; }
+  .footer-social a {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.5); font-size: 13px; font-weight: 600;
+    text-decoration: none; transition: border-color 0.2s, color 0.2s;
+  }
+  .footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+  .footer-col h4 {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 18px;
+  }
+  .footer-col a {
+    display: block; font-size: 13px; color: rgba(255,255,255,0.4);
+    text-decoration: none; margin-bottom: 10px; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--white); }
+  .footer-col p { font-size: 13px; color: rgba(255,255,255,0.3); line-height: 1.7; margin-bottom: 5px; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.2); }
+  .footer-tagline { font-family: var(--serif); font-size: 13px; font-style: italic; color: rgba(201,168,76,0.45); }
 
     /* =====================
        RESPONSIVE
@@ -1140,28 +995,26 @@
 <body>
 
   <!-- ===== NAV ===== -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/03/buddies-logo.png?w=300" alt="Episode Buddies" />
-        <span>Episode Buddies</span>
-      </a>
+ <nav>
+  <a href="index.html" class="nav-logo">
+    <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/03/buddies-logo.png?w=300" alt="Episode Buddies">
+    <span class="nav-logo-text">Episode Buddies</span>
+  </a>
+  <div class="nav-links">
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="drive.html">Drive</a>
+    <a href="team.html">Team</a>
+    <a href="shelf.html">Contest Winners</a>
+    <a href="library.html">Library</a>
+    <a href="services.html" class="nav-cta">Request a Service</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-      <ul class="nav-links">
-        <li><a href="about.html">About</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="drive.html">Drive</a></li>
-        <li><a href="team.html">Team</a></li>
-        <li><a href="shelf.html">Contest Winners</a></li>
-        <li><a href="library.html">Library</a></li>
-        <li><a href="services.html" class="nav-cta">Request a Service</a></li>
-      </ul>
-
-      <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-
+  <!-- MOBILE MENU -->
     <div class="nav-mobile" id="nav-mobile">
       <a href="about.html">About</a>
       <a href="services.html">Services</a>
@@ -1672,61 +1525,53 @@
   </section>
 
   <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <div class="footer-logo">
-            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/03/buddies-logo.png?w=300" alt="Episode Buddies" />
-            <span>Episode Buddies</span>
-          </div>
-          <p>Uplifting Episode authors through free community services, monthly contests, and the most celebrated annual competitions on the platform.</p>
-          <div class="footer-socials">
-            <a href="https://www.instagram.com/episode_buddies/" target="_blank" aria-label="Instagram">IG</a>
-            <a href="https://www.threads.net/@episode_buddies" target="_blank" aria-label="Threads">TH</a>
-            <a href="mailto:episodebuddies3@gmail.com" aria-label="Email">✉</a>
-          </div>
+  <footer>
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-logo">
+          <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/03/buddies-logo.png?w=300" alt="Episode Buddies">
+          <span>Episode Buddies</span>
         </div>
-
-        <div class="footer-col">
-          <h4>Pages</h4>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="drive.html">Drive</a></li>
-            <li><a href="team.html">Team</a></li>
-            <li><a href="shelf.html">Contest Winners</a></li>
-            <li><a href="library.html">Buddies Library</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Competitions</h4>
-          <ul>
-            <li><a href="https://episodebuddiessoty.netlify.app/soty-2025.html">SOTY 2025</a></li>
-            <li><a href="https://episodebuddiessoty.netlify.app/aoty-2025.html">AOTY 2025</a></li>
-            <li><a href="hall-of-fame.html">Hall of Fame</a></li>
-            <li><a href="contest.html">Monthly Contests</a></li>
-            <li><a href="https://www.notion.so/be6ae8b7f3624f249689692914a80976?v=2f77df7eb2ce4583a31842e6651d1b8a&source=copy_link">Contest Schedule</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col footer-contact">
-          <h4>Contact</h4>
-          <p>episodebuddies3@gmail.com</p>
-          <p>Sunday – Saturday</p>
-          <p>6:00 AM – 10:00 PM GMT+1</p>
-          <p style="margin-top:6px;">@episode_buddies</p>
+        <p class="footer-brand-desc">Uplifting Episode authors through free community services, monthly contests, and the most celebrated annual competitions on the platform.</p>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/episode_buddies/" target="_blank">IG</a>
+          <a href="https://www.threads.net/@episode_buddies" target="_blank">TH</a>
+          <a href="mailto:episodebuddies3@gmail.com">✉</a>
         </div>
       </div>
-
-      <div class="footer-bottom">
-        <p>© 2025 Buddies Support Hub · All rights reserved.</p>
-        <p><em>"Where great stories find the spotlight they deserve."</em></p>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="drive.html">Drive</a>
+        <a href="team.html">Team</a>
+        <a href="shelf.html">Contest Winners</a>
+        <a href="library.html">Buddies Library</a>
+      </div>
+      <div class="footer-col">
+        <h4>Competitions</h4>
+        <a href="https://episodebuddiessoty.netlify.app/soty-2025.html">SOTY 2025</a>
+        <a href="https://episodebuddiessoty.netlify.app/aoty-2025.html">AOTY 2025</a>
+        <a href="hall-of-fame.html">Hall of Fame</a>
+        <a href="contest.html">Monthly Contests</a>
+        <a href="https://www.notion.so/be6ae8b7f3624f249689692914a80976" target="_blank">Contest Schedule</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p>episodebuddies3@gmail.com</p>
+        <p>Sunday – Saturday</p>
+        <p>6:00 AM – 10:00 PM GMT+1</p>
+        <p style="margin-top:10px;">@episode_buddies</p>
       </div>
     </div>
-  </footer>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Buddies Support Hub · All rights reserved.</span>
+      <span class="footer-tagline">"Where great stories find the spotlight they deserve."</span>
+    </div>
+  </div>
+</footer>
 
   <!-- ===== SCRIPTS ===== -->
   <script>
