@@ -115,7 +115,7 @@
   }
   .page-header h1 em { color: var(--gold); font-style: italic; }
   .page-header-sub {
-    font-size: 17px; font-weight: 300; line-height: 1.75;
+    font-size: 13px; font-weight: 300; line-height: 1.75;
     color: rgba(255,255,255,0.55); max-width: 580px; margin: 0 auto 48px;
   }
   .header-counts {
@@ -293,7 +293,6 @@
     .runner-info { padding: 10px 10px 14px; }
     .runner-title { font-size: 13px; }
     .runner-meta { font-size: 11px; }
-    .runner-desc { display: none; }
     .runner-pip { font-size: 8px; padding: 3px 7px; }
   }
   .runner-placement {
@@ -448,7 +447,7 @@
     aspect-ratio: 1/1;
   }
   .gallery-img-wrap img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
+    width: 100%; height: 100%; object-fit: contain; display: block;
     transition: transform 0.4s, filter 0.3s;
     filter: saturate(0.85);
   }
@@ -624,6 +623,194 @@
   .runner-slide .runner-card { height: 100%; display: flex; flex-direction: column; }
   .runner-slide .runner-cover { aspect-ratio: 3/4; }
 
+  /* ── Author trigger ── */
+  .author-trigger {
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s, filter 0.25s;
+  }
+  .author-trigger:hover {
+    transform: scale(1.05) translateY(-3px);
+    box-shadow: 0 10px 30px rgba(201,168,76,0.35);
+    filter: brightness(1.05);
+  }
+
+  /* ── Modal overlay ── */
+  .am-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(15,27,51,0.88);
+    align-items: center; justify-content: center;
+    padding: 20px;
+    animation: amFadeIn 0.25s ease;
+    overflow-y: auto;
+  }
+  .am-overlay.open { display: flex; }
+  @keyframes amFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ── Modal box ── */
+  .am-box {
+    background: var(--white, #fff);
+    border-radius: 12px;
+    width: 100%; max-width: 680px;
+    position: relative;
+    animation: amSlideUp 0.3s ease;
+    overflow: hidden;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  @keyframes amSlideUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+
+  /* Scrollbar inside modal */
+  .am-box::-webkit-scrollbar { width: 4px; }
+  .am-box::-webkit-scrollbar-track { background: rgba(27,42,74,0.05); }
+  .am-box::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.4); border-radius: 2px; }
+
+  /* ── Close button ── */
+  .am-close {
+    position: sticky; top: 0; float: right;
+    margin: 14px 14px -14px 0;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(27,42,74,0.08); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: #4A5568; z-index: 10;
+    transition: background 0.2s, color 0.2s; line-height: 1;
+  }
+  .am-close:hover { background: var(--deep-navy, #0F1B33); color: #fff; }
+
+  /* ── Header ── */
+  .am-header {
+    background: var(--deep-navy, #0F1B33);
+    padding: 32px 32px 28px;
+    display: flex; align-items: flex-start; gap: 24px;
+    position: relative; overflow: hidden;
+  }
+  .am-header::before {
+    content: ''; position: absolute; inset: 0; opacity: 0.04;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(201,168,76,1) 79px, rgba(201,168,76,1) 80px),
+      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(201,168,76,1) 79px, rgba(201,168,76,1) 80px);
+  }
+  .am-pfp {
+    width: 90px; height: 90px; border-radius: 50%; flex-shrink: 0;
+    object-fit: cover; border: 3px solid rgba(201,168,76,0.5);
+    position: relative; z-index: 1;
+  }
+  .am-header-text { position: relative; z-index: 1; padding-top: 4px; }
+  .am-name {
+    font-family: var(--serif, 'Playfair Display', serif);
+    font-size: 26px; font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 6px;
+  }
+  .am-handle {
+    font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 12px;
+  }
+  .am-title-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .am-badge {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 20px;
+    background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.35); color: var(--gold, #C9A84C);
+  }
+  .am-badge.gold-fill {
+    background: var(--gold, #C9A84C); color: var(--deep-navy, #0F1B33); border-color: var(--gold, #C9A84C);
+  }
+
+  /* ── Body ── */
+  .am-body { padding: 28px 32px; }
+
+  /* Bio */
+  .am-bio {
+    font-size: 14px; line-height: 1.8; color: #4A5568;
+    margin-bottom: 24px; font-style: italic;
+    border-left: 3px solid var(--gold, #C9A84C);
+    padding-left: 16px;
+  }
+
+  /* Quote */
+  .am-quote {
+    background: var(--off-white, #F7F5F0);
+    border-radius: 8px; padding: 16px 20px; margin-bottom: 24px;
+    font-size: 13px; line-height: 1.75; color: #4A5568; font-style: italic;
+  }
+  .am-quote cite { display: block; font-size: 11px; font-style: normal; font-weight: 600; color: var(--text-light, #8896A6); margin-top: 8px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* Info table */
+  .am-info-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+    border-radius: 8px; overflow: hidden; border: 1px solid rgba(27,42,74,0.08);
+    margin-bottom: 24px;
+  }
+  .am-info-label {
+    background: var(--navy, #1B2A4A); padding: 10px 16px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold, #C9A84C); display: flex; align-items: center;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+  }
+  .am-info-value {
+    background: rgba(27,42,74,0.03); padding: 10px 16px;
+    font-size: 13px; color: var(--text-dark, #0F1B33);
+    display: flex; align-items: center;
+    border-bottom: 1px solid rgba(27,42,74,0.05);
+  }
+  .am-info-label:nth-last-child(2), .am-info-value:last-child { border-bottom: none; }
+
+  /* Section title inside modal */
+  .am-section-title {
+    font-family: var(--serif, 'Playfair Display', serif);
+    font-size: 16px; font-weight: 700; color: var(--navy, #1B2A4A);
+    margin-bottom: 14px; padding-bottom: 8px;
+    border-bottom: 1px solid rgba(27,42,74,0.08);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .am-section-title::before { content: ''; display: block; width: 20px; height: 2px; background: var(--gold, #C9A84C); flex-shrink: 0; }
+
+  /* Stories */
+  .am-stories { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+  .am-story {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: var(--off-white, #F7F5F0); border-radius: 8px;
+    padding: 14px; border: 1px solid rgba(27,42,74,0.07);
+    text-decoration: none; transition: border-color 0.2s, background 0.2s;
+  }
+  .am-story:hover { border-color: rgba(201,168,76,0.4); background: #fff; }
+  .am-story-cover { width: 52px; height: 68px; border-radius: 5px; object-fit: cover; flex-shrink: 0; border: 1px solid rgba(27,42,74,0.1); }
+  .am-story-info { flex: 1; }
+  .am-story-title { font-family: var(--serif, 'Playfair Display', serif); font-size: 14px; font-weight: 700; color: var(--navy, #1B2A4A); margin-bottom: 4px; }
+  .am-story-blurb { font-size: 12px; color: #4A5568; line-height: 1.6; }
+  .am-story-read { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold, #C9A84C); margin-top: 6px; display: block; }
+
+  /* Achievements */
+  .am-achievements { display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px; }
+  .am-achievement {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 13px; color: #4A5568; line-height: 1.5;
+  }
+  .am-achievement::before { content: '◆'; color: var(--gold, #C9A84C); font-size: 8px; margin-top: 5px; flex-shrink: 0; }
+
+  /* Footer CTA */
+  .am-footer {
+    border-top: 1px solid rgba(27,42,74,0.08);
+    padding: 20px 32px 24px;
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+  .am-btn {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 10px 20px; border-radius: 4px; text-decoration: none;
+    transition: background 0.2s, color 0.2s; border: 1px solid transparent;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .am-btn-gold { background: var(--gold, #C9A84C); color: var(--deep-navy, #0F1B33); border-color: var(--gold, #C9A84C); }
+  .am-btn-gold:hover { background: var(--gold-light, #E8C97A); border-color: var(--gold-light, #E8C97A); }
+  .am-btn-outline { background: transparent; color: var(--navy, #1B2A4A); border-color: rgba(27,42,74,0.3); }
+  .am-btn-outline:hover { background: var(--navy, #1B2A4A); color: #fff; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .am-header { flex-direction: column; align-items: center; text-align: center; padding: 24px 20px 20px; }
+    .am-title-badges { justify-content: center; }
+    .am-body, .am-footer { padding-left: 20px; padding-right: 20px; }
+    .am-info-grid { grid-template-columns: 1fr; }
+    .am-info-label { border-bottom: none; }
+  }
+
 </style>
 </head>
 <body>
@@ -757,7 +944,7 @@
   <div class="inner">
     <div class="section-eyebrow gold"><span>Season by Season</span></div>
     <h2 class="section-title white gold-em">Every story. Every <em>season</em>.</h2>
-    <p class="section-sub light">SOTY winner and runners-up from each season — 2025 down to 2022.</p>
+    <p class="section-sub light">SOTY winner and runners-up from each season; 2025 down to 2022.</p>
 
     <!-- 2025 -->
     <div class="year-block">
@@ -782,19 +969,19 @@
           </div>
           <div class="year-slide runner-slide">
             <div class="runner-card">
-              <div class="runner-cover-wrap"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/494887505_904387568457779_1081872515513069301_n-edited.jpg" alt="Disgraced"><div class="runner-pip">1st Runner Up</div></div>
+              <div class="runner-cover-wrap"><a href="http://episodeinteractive.com/r/s/5578289071456256" target="_blank"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/494887505_904387568457779_1081872515513069301_n-edited.jpg" alt="Disgraced"></a><div class="runner-pip">1st Runner Up</div></div>
               <div class="runner-info"><div class="runner-placement">1st Runner Up · 2025</div><div class="runner-title">Disgraced</div><div class="runner-meta">Drama · Viper</div><div class="runner-desc">After a scandalous affair with the king leaves her reputation in ruins, Gigi must repair her broken heart and end her cycle of bad decisions.</div></div>
             </div>
           </div>
           <div class="year-slide runner-slide">
             <div class="runner-card">
-              <div class="runner-cover-wrap"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/604747421_1569149994229651_1668515451481797075_n.jpg" alt="The Clique"><div class="runner-pip">2nd Runner Up</div></div>
+              <div class="runner-cover-wrap"><a href="https://episodeinteractive.com/r/s/5722486796648448" target="_blank"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/604747421_1569149994229651_1668515451481797075_n.jpg" alt="The Clique"></a><div class="runner-pip">2nd Runner Up</div></div>
               <div class="runner-info"><div class="runner-placement">2nd Runner Up · 2025</div><div class="runner-title">The Clique</div><div class="runner-meta">Drama · R. Lewis</div><div class="runner-desc">"The Clique" loses one of their members in a sudden tragedy. A writer observes their tight-knit group and becomes far too intrigued with one member: Denise Evergreen.</div></div>
             </div>
           </div>
           <div class="year-slide runner-slide">
             <div class="runner-card">
-              <div class="runner-cover-wrap"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/605476665_1516463442783365_875944014486975024_n.jpg" alt="Prelude To Forever"><div class="runner-pip">3rd Runner Up</div></div>
+              <div class="runner-cover-wrap"><a href="http://episodeinteractive.com/s/5436016641212416" target="_blank"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/605476665_1516463442783365_875944014486975024_n.jpg" alt="Prelude To Forever"></a><div class="runner-pip">3rd Runner Up</div></div>
               <div class="runner-info"><div class="runner-placement">3rd Runner Up · 2025</div><div class="runner-title">Prelude To Forever</div><div class="runner-meta">Romance · Tali</div><div class="runner-desc">She played a mysterious melody and woke up in 1900. Now she's stuck between a man who doesn't trust her and a century that doesn't belong to her.</div></div>
             </div>
           </div>
@@ -829,19 +1016,19 @@
           </div>
           <div class="year-slide runner-slide">
             <div class="runner-card">
-              <div class="runner-cover-wrap"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/untitled-design-1.png" alt="The Dove"><div class="runner-pip">1st Runner Up</div></div>
+              <div class="runner-cover-wrap"><a href="https://episodeinteractive.com/s/i/6753623331504128" target="_blank"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/untitled-design-1.png" alt="The Dove"></a><div class="runner-pip">1st Runner Up</div></div>
               <div class="runner-info"><div class="runner-placement">1st Runner Up · 2024</div><div class="runner-title">The Dove</div><div class="runner-meta">Fantasy · Nalia Elnira</div><div class="runner-desc">As a child of hope, your job is to heal souls in pain. But will you be able to cure HIM without sentencing yourself to death?</div></div>
             </div>
           </div>
           <div class="year-slide runner-slide">
             <div class="runner-card">
-              <div class="runner-cover-wrap"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/551202923_1695218481165631_1869327076753618433_n.jpg" alt="Fire And The Flood"><div class="runner-pip">2nd Runner Up</div></div>
+              <div class="runner-cover-wrap"><a href="https://episodeinteractive.com/s/4695239659814912" target="_blank"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/551202923_1695218481165631_1869327076753618433_n.jpg" alt="Fire And The Flood"></a><div class="runner-pip">2nd Runner Up</div></div>
               <div class="runner-info"><div class="runner-placement">2nd Runner Up · 2024</div><div class="runner-title">Fire And The Flood</div><div class="runner-meta">LGBTQ+ · Layvi</div><div class="runner-desc">Oliver's world had burned long ago. When one summer of fate gives him a chance to reconnect with an old friend and seek out his father, will he begin to heal?</div></div>
             </div>
           </div>
           <div class="year-slide runner-slide">
             <div class="runner-card">
-              <div class="runner-cover-wrap"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/489731333_1300228178512544_8276019073830743894_n.jpg" alt="Dear Diary"><div class="runner-pip">3rd Runner Up</div></div>
+              <div class="runner-cover-wrap"><a href="http://episodeinteractive.com/r/s/6524586583588864" target="_blank"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/489731333_1300228178512544_8276019073830743894_n.jpg" alt="Dear Diary"></a><div class="runner-pip">3rd Runner Up</div></div>
               <div class="runner-info"><div class="runner-placement">3rd Runner Up · 2024</div><div class="runner-title">Dear Diary</div><div class="runner-meta">Romance · Saiga</div><div class="runner-desc">Life in high school is hard enough, even more when someone steals your secret diary! Luckily the school's troublemaker is here to help.</div></div>
             </div>
           </div>
@@ -871,19 +1058,19 @@
           </div>
           <div class="year-slide runner-slide">
             <div class="runner-card">
-              <div class="runner-cover-wrap"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/543676172_2161977004540126_3524334662470072543_n.jpg" alt="I Became The Lady Villainess"><div class="runner-pip">1st Runner Up</div></div>
+              <div class="runner-cover-wrap"><a href="http://episodeinteractive.com/s/6747248379756544" target="_blank"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/543676172_2161977004540126_3524334662470072543_n.jpg" alt="I Became The Lady Villainess"></a><div class="runner-pip">1st Runner Up</div></div>
               <div class="runner-info"><div class="runner-placement">1st Runner Up · 2023</div><div class="runner-title">I Became The Lady Villainess</div><div class="runner-meta">Fantasy · Himeji</div><div class="runner-desc">You've suddenly reincarnated as the villainess from an Episode story — fated to be executed for murder! Will you avoid this ending or die once again?</div></div>
             </div>
           </div>
           <div class="year-slide runner-slide">
             <div class="runner-card">
-              <div class="runner-cover-wrap"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/556082747_1184027440205964_5466964687660172106_n-edited.jpg" alt="Around The Campfire"><div class="runner-pip">2nd Runner Up</div></div>
+              <div class="runner-cover-wrap"><a href="http://episodeinteractive.com/s/5363367936458752" target="_blank"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/556082747_1184027440205964_5466964687660172106_n-edited.jpg" alt="Around The Campfire"></a><div class="runner-pip">2nd Runner Up</div></div>
               <div class="runner-info"><div class="runner-placement">2nd Runner Up · 2023</div><div class="runner-title">Around The Campfire</div><div class="runner-meta">Horror · S. Anne, Hallie C</div><div class="runner-desc">Telling campfire stories has always been Mia's idea of fun. But her and her campmates aren't aware of what's lurking within the darkness of the forest behind them.</div></div>
             </div>
           </div>
           <div class="year-slide runner-slide">
             <div class="runner-card">
-              <div class="runner-cover-wrap"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/503415733_1130046275375894_8397197977758721235_n.jpg" alt="Juliette"><div class="runner-pip">3rd Runner Up</div></div>
+              <div class="runner-cover-wrap"><a href="http://episodeinteractive.com/s/4802072073273344" target="_blank"><img class="runner-cover" src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/503415733_1130046275375894_8397197977758721235_n.jpg" alt="Juliette"></a><div class="runner-pip">3rd Runner Up</div></div>
               <div class="runner-info"><div class="runner-placement">3rd Runner Up · 2023</div><div class="runner-title">Juliette</div><div class="runner-meta">Fantasy · S. Anne</div><div class="runner-desc">Juliette always knew she wasn't human. One day she receives the opportunity to discover herself and the powers she possesses — but things aren't entirely as they seem.</div></div>
             </div>
           </div>
@@ -922,7 +1109,7 @@
   <div class="inner">
     <div class="section-eyebrow gold"><span>SOTY Special Awards</span></div>
     <h2 class="section-title white gold-em">Individual <em>Excellence</em></h2>
-    <p class="section-sub light">Beyond the SOTY title — stories recognized for exceptional achievement in specific categories, year by year.</p>
+    <p class="section-sub light">Beyond the SOTY title; stories recognized for exceptional achievement in specific categories, year by year.</p>
 
     <div class="award-year-block">
       <div class="award-year-label">2025</div>
@@ -973,7 +1160,7 @@
   <div class="inner">
     <div class="section-eyebrow purple"><span>AOTY Hall of Fame</span></div>
     <h2 class="section-title" style="color:var(--navy);">Author of the Year — <em style="color:var(--purple);">All Laureates</em></h2>
-    <p class="section-sub">Every author to have won the AOTY title. A lifetime honour — past winners are permanently retired.</p>
+    <p class="section-sub">Every author to have won the AOTY title. A lifetime honour, past winners are permanently retired.</p>
     <div class="timeline-table-wrap">
       <table class="timeline-table">
         <thead>
@@ -1008,7 +1195,7 @@
       <span style="color:var(--purple); font-size:11px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase;">Season by Season</span>
     </div>
     <h2 class="section-title" style="color:var(--navy);">Every <em style="color:var(--purple);">Author of the Year</em>.</h2>
-    <p class="section-sub">AOTY recognizes the full author — their craft, presence, communication, and community impact. The title is held for life.</p>
+    <p class="section-sub">AOTY recognizes the full author; their craft, presence, communication, and community impact. The title is held for life.</p>
 
     <!-- 2025 AOTY -->
     <div class="year-block" style="margin-bottom:64px;">
@@ -1017,7 +1204,7 @@
       </div>
       <div class="aoty-winner-block">
         <div class="aoty-w-photo">
-          <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/r.-lewis.png" alt="R. Lewis">
+          <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/r.-lewis.png" alt="R. Lewis" class="author-trigger" data-author="rlewis">
           <div class="aoty-w-pip">2025 AOTY Winner</div>
         </div>
         <div class="aoty-w-info">
@@ -1029,7 +1216,7 @@
       <div class="aoty-runners">
         <div class="aoty-runner-card">
           <div class="aoty-runner-photo">
-            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/charlie-seb.jpeg" alt="Charlie Seb">
+            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/charlie-seb.jpeg" alt="Charlie Seb" class="author-trigger" data-author="charlieseb">
             <div class="aoty-runner-pip">1st Runner Up</div>
           </div>
           <div class="aoty-runner-info">
@@ -1040,7 +1227,7 @@
         </div>
         <div class="aoty-runner-card">
           <div class="aoty-runner-photo">
-            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/591694923_2048293755930355_397748706499119739_n-edited.jpg" alt="Tali">
+            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/591694923_2048293755930355_397748706499119739_n-edited.jpg" alt="Tali" class="author-trigger" data-author="tali">
             <div class="aoty-runner-pip">2nd Runner Up</div>
           </div>
           <div class="aoty-runner-info">
@@ -1051,7 +1238,7 @@
         </div>
         <div class="aoty-runner-card">
           <div class="aoty-runner-photo">
-            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/601633417_855059087167942_7829925395253307311_n-edited.jpg" alt="Nas">
+            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/601633417_855059087167942_7829925395253307311_n-edited.jpg" alt="Nas" class="author-trigger" data-author="nas">
             <div class="aoty-runner-pip">3rd Runner Up</div>
           </div>
           <div class="aoty-runner-info">
@@ -1070,7 +1257,7 @@
       </div>
       <div class="aoty-winner-block">
         <div class="aoty-w-photo">
-          <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/543706905_17931080721092952_1077996096989603726_n.jpg" alt="Ryan Graye">
+          <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/543706905_17931080721092952_1077996096989603726_n.jpg" alt="Ryan Graye" class="author-trigger" data-author="ryangraye">
           <div class="aoty-w-pip">2024 AOTY Winner</div>
         </div>
         <div class="aoty-w-info">
@@ -1082,7 +1269,7 @@
       <div class="aoty-runners">
         <div class="aoty-runner-card">
           <div class="aoty-runner-photo">
-            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/465585337_1284950579418836_807641121070881803_n.jpg" alt="Layvi">
+            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/465585337_1284950579418836_807641121070881803_n.jpg" alt="Layvi" class="author-trigger" data-author="layvi">
             <div class="aoty-runner-pip">1st Runner Up</div>
           </div>
           <div class="aoty-runner-info">
@@ -1093,7 +1280,7 @@
         </div>
         <div class="aoty-runner-card">
           <div class="aoty-runner-photo">
-            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/560137353_17981783696877573_8611994880202272444_n.jpg" alt="Natalie Xo">
+            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/560137353_17981783696877573_8611994880202272444_n.jpg" alt="Natalie Xo" class="author-trigger" data-author="nataliexo">
             <div class="aoty-runner-pip">2nd Runner Up</div>
           </div>
           <div class="aoty-runner-info">
@@ -1104,7 +1291,7 @@
         </div>
         <div class="aoty-runner-card">
           <div class="aoty-runner-photo">
-            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/1000110561.webp" alt="Nalia Elnira">
+            <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/1000110561.webp" alt="Nalia Elnira" class="author-trigger" data-author="naliaelnira">
             <div class="aoty-runner-pip">3rd Runner Up</div>
           </div>
           <div class="aoty-runner-info">
@@ -1123,7 +1310,7 @@
       </div>
       <div class="aoty-winner-block">
         <div class="aoty-w-photo">
-          <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/475662045_1655350498397602_9013583581196842109_n.jpg" alt="Fern">
+          <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/475662045_1655350498397602_9013583581196842109_n.jpg" alt="Fern" class="author-trigger" data-author="fern">
           <div class="aoty-w-pip">2023 AOTY Winner</div>
         </div>
         <div class="aoty-w-info">
@@ -1214,22 +1401,22 @@
   <div class="inner">
     <div class="section-eyebrow gold"><span>Moments to Remember</span></div>
     <h2 class="section-title white gold-em"><em>Memories</em> from the competition.</h2>
-    <p class="section-sub light" style="margin-bottom:40px;">Highlights from across SOTY and AOTY seasons.</p>
+    <p class="section-sub light" style="margin-bottom:40px;">Highlights from 2025 SOTY and AOTY seasons.</p>
     <div class="gallery-grid">
       <div class="gallery-img-wrap">
         <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/607177140_1847800192527403_2203743448680550626_n.jpg" alt="SOTY moment">
       </div>
       <div class="gallery-img-wrap">
-        <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/606454671_1234305835242595_7810209225487847890_n.jpg" alt="SOTY moment">
-      </div>
-      <div class="gallery-img-wrap">
         <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/608806130_1213571907384968_312380822447663278_n.jpg" alt="SOTY moment">
       </div>
       <div class="gallery-img-wrap">
-        <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/605972258_1915294822748029_1968533091386362590_n.jpg" alt="SOTY moment">
+        <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/606454671_1234305835242595_7810209225487847890_n.jpg" alt="SOTY moment">
       </div>
       <div class="gallery-img-wrap">
         <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/606350080_1565953827884696_4085717396914377639_n.jpg" alt="SOTY moment">
+      </div>
+      <div class="gallery-img-wrap">
+        <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/605972258_1915294822748029_1968533091386362590_n.jpg" alt="SOTY moment">
       </div>
       <div class="gallery-img-wrap">
         <img src="https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/606867339_957575623592899_6460129217003610764_n.jpg" alt="SOTY moment">
@@ -1335,6 +1522,555 @@
       });
     }
   });
+  function amOpen(key) {
+  const a = AM_AUTHORS[key];
+  if (!a) return;
+
+  const box = document.getElementById('am-box');
+
+  // Build badges
+  const badges = a.titles.map((t, i) =>
+    `<span class="am-badge${i === 0 ? ' gold-fill' : ''}">${t}</span>`
+  ).join('');
+
+  // Build info table rows
+  const infoRows = (a.info || []).map(([label, value]) => {
+    const linkHref = a.infoLinks && a.infoLinks[label];
+    const valHtml  = linkHref
+      ? `<a href="${linkHref}" target="_blank" style="color:var(--gold,#C9A84C);">${value}</a>`
+      : value;
+    return `<div class="am-info-label">${label}</div><div class="am-info-value">${valHtml}</div>`;
+  }).join('');
+
+  // Build stories
+  const storiesHtml = (a.stories || []).map(s => `
+    <a href="${s.link || '#'}" target="_blank" class="am-story" ${!s.link || s.link === '#' ? 'onclick="return false"' : ''}>
+      ${s.cover ? `<img class="am-story-cover" src="${s.cover}" alt="${s.title}" loading="lazy">` : ''}
+      <div class="am-story-info">
+        <div class="am-story-title">${s.title}</div>
+        ${s.blurb ? `<div class="am-story-blurb">${s.blurb}</div>` : '<div class="am-story-blurb" style="color:var(--text-light,#8896A6);font-style:italic;">Description coming soon.</div>'}
+        ${s.link && s.link !== '#' ? '<span class="am-story-read">Read Story →</span>' : ''}
+      </div>
+    </a>`).join('');
+
+  // Build achievements
+  const achieveHtml = (a.achievements || []).map(ach =>
+    `<div class="am-achievement">${ach}</div>`
+  ).join('');
+
+  box.innerHTML = `
+    <button class="am-close" onclick="amClose()" aria-label="Close">✕</button>
+
+    <div class="am-header">
+      <img class="am-pfp" src="${a.pfp}" alt="${a.name}">
+      <div class="am-header-text">
+        <div class="am-name">${a.name}</div>
+        <div class="am-handle">${a.handle}</div>
+        <div class="am-title-badges">${badges}</div>
+      </div>
+    </div>
+
+    <div class="am-body">
+      ${a.bio ? `<p class="am-bio">${a.bio}</p>` : ''}
+      ${a.quote ? `<div class="am-quote">${a.quote}<cite>${a.quoteBy}</cite></div>` : ''}
+
+      ${infoRows ? `
+        <div class="am-section-title">Author Details</div>
+        <div class="am-info-grid">${infoRows}</div>` : ''}
+
+      ${storiesHtml ? `
+        <div class="am-section-title">Published Stories</div>
+        <div class="am-stories">${storiesHtml}</div>` : ''}
+
+      ${achieveHtml ? `
+        <div class="am-section-title">Achievements</div>
+        <div class="am-achievements">${achieveHtml}</div>` : ''}
+    </div>
+
+    <div class="am-footer">
+      <a href="${a.igLink}" target="_blank" class="am-btn am-btn-gold">Follow on Instagram →</a>
+      <button class="am-btn am-btn-outline" onclick="amClose()">Close</button>
+    </div>`;
+
+  document.getElementById('am-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function amClose() {
+  document.getElementById('am-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function amHandleOverlayClick(e) {
+  // Close if clicking the dark backdrop, not the box itself
+  if (e.target === document.getElementById('am-overlay')) amClose();
+}
+
+const AM_AUTHORS = {
+
+  rlewis: {
+    name:    'R. Lewis',
+    handle:  '@rlewiswrites',
+    igLink:  'https://www.instagram.com/rlewiswrites/',
+    pfp:     'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/r.-lewis.png',
+    titles:  ['Author of the Year 2025', 'Creative Excellence Award 2025'],
+    goldBadge: 'AOTY 2025 Winner',
+    bio: 'R. Lewis is an American co-author duo on Episode, born on January 11th and March 8th, whose collaborative storytelling has earned them widespread recognition. Their creative partnership is marked by strong narrative cohesion, polished execution, and a shared vision that translates seamlessly onto the screen.',
+    quote: '"The Clique delivers a gripping narrative where contrasting worlds collide and navigate the chaos of life together. With outstanding, movie-style directing and immersive storytelling, R. Lewis captivates readers and leaves a powerful, lasting impression."',
+    quoteBy: '— Buddies Team',
+    info: [
+      ['Birthday',          '11th January & 8th March'],
+      ['Nationality',       'American'],
+      ['Zodiac',            'Capricorn & Pisces'],
+      ['Active on Episode', '2024 – present'],
+      ['Stories Published', '3'],
+      ['Website',           'storiesbyrlewis.site'],
+    ],
+    infoLinks: {
+      'Website': 'https://sites.google.com/view/storiesbyrlewis/home',
+    },
+    stories: [
+      {
+        title:  'The Clique (Season 1)',
+        blurb:  '"The Clique" loses one of their members in a sudden tragedy. A writer observes their tight-knit group — unexpectedly, he becomes far too intrigued with one member: Denise Evergreen.',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/01/594470693_2391844074587314_2366897739741645666_n.jpg',
+        link:   'https://episodeinteractive.com/r/s/5722486796648448',
+      },
+      {
+        title:  'Once, In December',
+        blurb:  'Doris White, a gifted dancer on a famous country singer\'s wartime Christmas tour, vows to resist his charms — but perhaps he\'s more than his reputation suggests.',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/01/609318755_928143413182834_1844295479427693173_n.png',
+        link:   'https://episodeinteractive.com/r/s/5063910778765312',
+      },
+      {
+        title:  'The Clique (Season 2)',
+        blurb:  'With a successful novel written about them, "The Clique" tries to navigate life in New York with new fears, new lessons, and new members.',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/01/609434427_1419088693189321_5073231280695755853_n.png',
+        link:   'https://episodeinteractive.com/r/s/5419283473793024',
+      },
+    ],
+    achievements: [
+      'Author of the Year 2025 (Buddies Support Hub)',
+      'Creative Excellence Award 2025 (Buddies Support Hub)',
+      '2nd Runner-Up — Story of the Year 2025 (The Clique)',
+      'Best Directing Award 2025 (The Clique)',
+      'Most Innovative Concept Award 2025 (The Clique)',
+    ],
+  },
+
+  ryangraye: {
+    name:    'Ryan Graye',
+    handle:  '@ryanwrites.epi',
+    igLink:  'https://www.instagram.com/ryanwrites.epi/',
+    pfp:     'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/543706905_17931080721092952_1077996096989603726_n.jpg',
+    titles:  ['Author of the Year 2024', 'Most Popular Author 2024'],
+    goldBadge: 'AOTY 2024 Winner',
+    bio: 'Ryan Graye is an Austrian Episode author, born on July 17th, who joined the community in November 2023. Known for her suspenseful storytelling and polished writing style, she quickly gained recognition through her debut story, Polaroids, which resonated strongly with readers. Beyond writing, she is also appreciated for supporting fellow authors through her custom backgrounds and overlays, showcasing both her creativity and versatility within the community.',
+    quote: '"Ryan Graye\'s debut story Polaroids has taken the Episode community by storm. With its heartfelt narrative and captivating characters, it’s clear she has made an unforgettable entrance as an author."',
+    quoteBy: '— Buddies Team',
+    info: [
+      ['Birthday',          '17th July'],
+      ['Nationality',       'Austrian'],
+      ['Zodiac',            'Cancer'],
+      ['Active on Episode', '2024 – present'],
+      ['Stories Published', '3'],
+      ['Website',           'ryangraye.carrd.co'],
+    ],
+    infoLinks: {
+      'Website': 'https://ryangraye.carrd.co/',
+    },
+    stories: [
+      {
+        title:  'Polaroids',
+        blurb:  'You are a criminology freshman who stumbles across an ominous polaroid of a missing girl, which unravels a dangerous chain of events...',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/494887709_696011059960560_617938641463955832_n.png',
+        link:   'http://episodeinteractive.com/r/s/6265867834785792',
+      },
+      {
+        title:  'Amplified Affection',
+        blurb:  'As a London based music producer, you catch the eye of LA singer SOUL through a viral open mic performance. As you grow closer through collaborations, love faces the distance test.',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/494888680_1392214765472085_486050304610828373_n.png',
+        link:   'https://episodeinteractive.com/r/s/5564586432954368',
+      },
+      {
+        title:  'Moonlight Sonata',
+        blurb:  'At a once prestigious school for the musically gifted, Anya uncovers a cursed sonata, and a love doomed to repeat the past. What would you sacrifice for the chance to rewrite fate?',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/04/662652433_2009782889976069_1405281385515620437_n.jpg',
+        link:   '#',
+      },
+    ],
+    achievements: [
+      'Author of the Year 2024 (Buddies Support Hub)',
+      'Most Popular Author 2024 (Buddies Support Hub)',
+      'Story of the Year 2024 (Polaroids)',
+      'Most Popular Story 2024 (Polaroids)',
+      'Readers Choice Award 2024 (Polaroids)',
+      'Hidden Gem Shelf - Q1 2024 (Episode shelf)'
+    ],
+  },
+
+  fern: {
+    name:    'Fern',
+    handle:  '@fern.episode',
+    igLink:  'https://www.instagram.com/fern.episode/',
+    pfp:     'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/475662045_1655350498397602_9013583581196842109_n.jpg',
+    titles:  ['Author of the Year 2023', 'Inaugural AOTY Winner'],
+    goldBadge: 'AOTY 2023 Winner',
+    bio: 'Fern is a Brazilian Episode author, born on January 31st, who joined the community in 2018 as a reader. Known for her remarkable directing skills and her ability to craft words into compelling narratives, she steadily built her presence through stories that reflect both creativity and precision. From her debut story, Inventions of C. Christopher, to later works that brought her wider recognition, Fern has become admired for the immersive and memorable storytelling she brings to the community.',
+    quote: '"After publishing her first story, ‘Inventions of C. Christopher,’ Fern anticipated the success that would come with crafting Symphony. Her continued growth has propelled her to new heights where her talent will always shine brightly."',
+    quoteBy: '— Buddies Team',
+    info: [
+      ['Birthday',          '31st January'],
+      ['Nationality',       'Brazilian'],
+      ['Zodiac',            'Aquarius'],
+      ['Active on Episode', '2018 – present'],
+      ['Stories Published', '2'],
+      ['Website',           'fernepisode.carrd.co'],
+    ],
+    infoLinks: {
+      'Website': 'https://fernepisode.carrd.co/',
+    },
+    stories: [
+      {
+        title:  'Symphony',
+        blurb:  'In 1946 New York, the worlds of an aspiring violinist and a World War II veteran collide in an unexpected symphony of emotions, as both struggle to overcome hardships of their own.',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/462563027_1187181382368426_1392740360208236542_n.png',
+        link:   'http://episodeinteractive.com/r/s/6046021552898048',
+      },
+      {
+        title:  'Inventions of C. Christopher',
+        blurb:  'A young woman with a knack for inventing goes on a dangerous quest to rescue her kidnapped little sister. With the help of a witty American along the way, will she succeed?',
+        cover:  'https://episodebuddies3.wordpress.com/wp-content/uploads/2024/10/1000038320-edited.webp',
+        link:   'http://episodeinteractive.com/r/s/6693747829440512',
+      },
+    ],
+    achievements: [
+      'Author of the Year 2023 (Buddies Support Hub)',
+      'Inaugural AOTY Winner (Buddies Support Hub)',
+      'Story of the Year 2023 (Symphony)',
+      'Best Story Cover Award 2023 (Symphony)',
+      'Best Directing Award 2023 (Symphony)',
+      'June Editors Pick 2023 (Episode shelf)'
+    ],
+  },
+
+  charlieseb: {
+    name:    'Charlie Seb',
+    handle:  '@charlie.seb',
+    igLink:  'https://www.instagram.com/charlie.seb/',
+    pfp:     'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/charlie-seb.jpeg',
+    titles:  ['1st Runner Up - Author of the Year 2025', 'Rising Star Award 2025'],
+    goldBadge: '1st Runner Up - AOTY 2025 Winner',
+    bio: 'Charlie Seb is a Filipino-Canadian Episode author, born in March, known for her bold storytelling and morally charged narratives. Her work is often defined by consequence-driven plots, layered characters, and a distinct creative vision that gives weight to every choice within her stories. Beyond writing, Charlie is also a visual artist, bringing an added layer of creativity to her work through her own illustrations. With a style that is both striking and memorable, she has built a presence in the community through stories that linger long after the final choice is made.',
+    quote: '"Charlie Seb’s debut story, Only Pretend, is a powerful mix of hope, second chances, and raw emotion. With heartfelt storytelling and unforgettable character journeys, it has captured hearts and resonated with readers across the world."',
+    quoteBy: '— Buddies Team',
+    info: [
+      ['Birthday',          'March (exact date private)'],
+      ['Nationality',       'Filipino-Canadian'],
+      ['Zodiac',            'Aries'],
+      ['Active on Episode', '2024 – present'],
+      ['Stories Published', '2'],
+      ['Website',           'charliecherryberry.carrd.co'],
+    ],
+    infoLinks: {
+      'Website': 'https://charliecherryberry.carrd.co/',
+    },
+    stories: [
+      {
+        title:  'Only Pretend',
+        blurb:  'After an accident erases your memories of a failing business marriage, your husband is forced to stay by your side. Given the second chance, can he love you this time?',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/605053254_1183961070108699_2679766466385616435_n.jpg',
+        link:   'http://episodeinteractive.com/s/5565870955069440',
+      },
+      {
+        title:  'Sucker',
+        blurb:  'Up against the wall and desperate for a muse, anything is on the table so long as it can purge your art block– anything, including your boyfriend\'s best friend. Literally.',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/01/605650571_1249509180380530_7513633853112121288_n.jpg',
+        link:   'http://episodeinteractive.com/s/5685679063597056',
+      },
+    ],
+    achievements: [
+      '1st Runner Up - Author of the Year 2025 (Buddies Support Hub)',
+      'Rising Star Award 2025 (Buddies Support Hub)',
+      'Story of the Year 2025 (Only Pretend)',
+      'Best Dialogue & Characterization 2025 (Only Pretend)',
+      'Winter Whispers 2024 (Episode shelf)'
+    ],
+  },
+
+  tali: {
+    name:    'Tali',
+    handle:  '@taliberry.scripted',
+    igLink:  'https://www.instagram.com/taliberry.scripted/',
+    pfp:     'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/591694923_2048293755930355_397748706499119739_n-edited.jpg',
+    titles:  ['2nd Runner Up - Author of the Year 2025'],
+    goldBadge: '2nd Runner Up - AOTY 2025 Winner',
+    bio: 'Tali is an Armenian Episode author, born on January 20th, known for her versatility and boundless creative curiosity. With a love for exploring different genres, her storytelling reflects a willingness to experiment with new voices, themes, and emotional tones across her work. Through the stories she has published, Tali has built a distinct presence marked by range, creativity, and a genuine passion for storytelling in all its forms. Her work captures both imagination and flexibility, making her a dynamic and evolving voice within the Episode community.',
+    quote: '"With Prelude To Forever, Tali crafts an enchanting and mysterious narrative, drawing readers into a story rich in emotion, tension, and timeless intrigue, where every moment feels layered with meaning and quiet suspense."',
+    quoteBy: '— Buddies Team',
+    info: [
+      ['Birthday',          '20th January'],
+      ['Nationality',       'Armenian'],
+      ['Zodiac',            'Capricorn'],
+      ['Active on Episode', '2025 – present'],
+      ['Stories Published', '2'],
+      ['Website',           'taliberry-scripted.carrd.co'],
+    ],
+    infoLinks: {
+      'Website': 'https://taliberry-scripted.carrd.co/',
+    },
+    stories: [
+      {
+        title:  'Prelude To Forever',
+        blurb:  'She played a mysterious melody and woke up in 1900. Now she\'s stuck between a man who doesn\'t trust her, and a century that doesn\'t belong to her.',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/605476665_1516463442783365_875944014486975024_n.jpg',
+        link:   'http://episodeinteractive.com/s/5436016641212416',
+      },
+      {
+        title:  'Glitter And Smoke',
+        blurb:  'Carmen built her empire on glitter and dirty cash, laundering for the mob. Until the night she saw too much. Can a new identity protect her from the shadows?',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/01/607328819_25536584505997608_7702313756303298819_n.jpg',
+        link:   'http://episodeinteractive.com/s/5392972163350528',
+      },
+    ],
+    achievements: [
+      '2nd Runner Up - Author of the Year 2025 (Buddies Support Hub)',
+      'Best Profile Picture 2025 (Buddies Support Hub)',
+      '3rd Runner Up - Story of the Year 2025 (Prelude To Forever)',
+      'Best Story Cover 2025 (Prelude To Forever)',
+      'Turning Point (Episode contest winner)'
+    ],
+  },
+
+  nas: {
+    name:    'Nas',
+    handle:  '@nxx._epy',
+    igLink:  'https://www.instagram.com/nxx._epy/',
+    pfp:     'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/601633417_855059087167942_7829925395253307311_n-edited.jpg',
+    titles:  ['3rd Runner Up - Author of the Year 2025'],
+    goldBadge: '3rd Runner Up - AOTY 2025 Winner',
+    bio: 'Nas is a British Episode author, born on April 1st, who joined the community in 2015. Known for her exceptional directing skills and immersive storytelling, she has built a strong presence through stories that blend creativity with engaging execution. Her work reflects both consistency and passion, allowing her to stand out as a distinctive voice within the community. Beyond writing, Nas also brings a sense of warmth and dedication that adds to the heart behind her storytelling.',
+    quote: '"Through One Latte At A Time, Nas beautifully captures the essence of love in its purest form. With a refined writing style and emotional depth, her storytelling resonates with readers and keeps them eagerly tapping through each moment."',
+    quoteBy: '— Buddies Team',
+    info: [
+      ['Birthday',          '1st April'],
+      ['Nationality',       'British'],
+      ['Zodiac',            'Aries'],
+      ['Active on Episode', '2015 – present'],
+      ['Stories Published', '3'],
+      ['Website',           'nxx.carrd.co'],
+    ],
+    infoLinks: {
+      'Website': 'https://nxx.carrd.co/',
+    },
+    stories: [
+      {
+        title:  'One Latte At A Time',
+        blurb:  'A writer haunted by the past and a curious barista connect over two mysterious coffee orders. As their lives intertwine, they must confront what they’ve been avoiding.',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/607010119_843731835235507_6309774551295320820_n.jpg',
+        link:   'http://episodeinteractive.com/s/6275796857815040',
+      },
+      {
+        title:  'Under Oath',
+        blurb:  'She turned her back on legacy, but Gray’s hidden truths drag her into a world where loyalty is tested, oaths are broken, and survival means facing the darkest secrets.',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/607011512_1277294920825195_4699293376496717386_n.jpg',
+        link:   'http://episodeinteractive.com/s/4774626926559232',
+      },
+      {
+        title:  'Love Last Whispers',
+        blurb:  'As memories fade and love slips away, one heart clings to the traces of a bond time threatens to break. In the silence, their love’s last whisper lingers, a bittersweet reminder of what once was.',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/12/606501824_848235241515526_910684388769907287_n.jpg',
+        link:   'http://episodeinteractive.com/s/6665842626691072',
+      },
+    ],
+    achievements: [
+      '3rd Runner Up - Author of the Year 2025 (Buddies Support Hub)',
+      '4th Runner Up - Story of the Year 2025 (One Latte At A Time)',
+      'Garden Of Words - Best Interactivity (Episode contest winner)',
+      'February Editor\'s Pick (Episode shelf)'
+    ],
+  },
+
+  layvi: {
+    name:    'Layvi',
+    handle:  '@layvi.episode',
+    igLink:  'https://www.instagram.com/layvi.episode/',
+    pfp:     'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/465585337_1284950579418836_807641121070881803_n.jpg',
+    titles:  ['1st Runner Up - Author of the Year 2024'],
+    goldBadge: '1st Runner Up - AOTY 2024 Winner',
+    bio: 'Layvi is an American Episode author, born on October 12th, who joined the community in 2013. Known for her adventurous spirit and imaginative storytelling, she has built a memorable presence through mythology-inspired narratives and distinctive character-driven stories. Her work often blends creativity, emotion, and a sense of escapism that resonates strongly with readers. With a voice that feels both bold and engaging, Layvi continues to stand out as a unique and recognizable presence within the Episode community.',
+    quote: '"Through Fire and the Flood, Layvi has masterfully portrayed love and resilience in the LGBTQ+ genre. Her storytelling brilliance has resonated deeply with readers, making it a true masterpiece."',
+    quoteBy: '— Buddies Team',
+    info: [
+      ['Birthday',          '12th October'],
+      ['Nationality',       'American'],
+      ['Zodiac',            'Scorpio'],
+      ['Active on Episode', '2013 – present'],
+      ['Stories Published', '3'],
+      ['Website',           'layvi.carrd.co'],
+    ],
+    infoLinks: {
+      'Website': 'https://layvi.carrd.co/',
+    },
+    stories: [
+      {
+        title:  'Fire And The Flood',
+        blurb:  'Oliver’s world had burned long ago. When one summer of fate gives him a chance to reconnect with an old friend and to seek out his father he had never met, will he begin to heal?',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/551202923_1695218481165631_1869327076753618433_n.jpg',
+        link:   'https://episodeinteractive.com/s/4695239659814912',
+      },
+      {
+        title:  'Legends',
+        blurb:  'Hero discovers she is a demigod with unique abilities and that her mother is stuck in the Fields of Asphodel. Will she shine or crumble in a world amongst gods and pirates?',
+        cover:  'https://episodebuddies3.wordpress.com/wp-content/uploads/2025/01/1000126822.jpg',
+        link:   'https://episodeinteractive.com/s/5298729317695488',
+      },
+      {
+        title:  'Daughters Of Poseidon',
+        blurb:  'Carina has it in for her when she is paired with Jett, a D-List god of two pantheons, to embark on a dangerous quest. Can she balance her own emotions and wit?',
+        cover:  'https://episodebuddies3.wordpress.com/wp-content/uploads/2025/01/1000126823.jpg',
+        link:   'https://episodeinteractive.com/s/5871279555674112',
+      },
+    ],
+    achievements: [
+      '1st Runner Up - Author of the Year 2024 (Buddies Support Hub)',
+      '2nd Runner Up - Story of the Year 2024 (Fire And The Flood)',
+      'Pride Shelf 2023 (Episode shelf)',
+      'Pride Shelf 2024 (Episode shelf)',
+      'Hidden Gems Shelf 2022 (Episode shelf)'
+    ],
+  },
+
+  nataliexo: {
+    name:    'Natalie Marie',
+    handle:  '@nataliemariewrites',
+    igLink:  'https://www.instagram.com/nataliemariewrites/',
+    pfp:     'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/560137353_17981783696877573_8611994880202272444_n.jpg',
+    titles:  ['2nd Runner Up - Author of the Year 2024'],
+    goldBadge: '2nd Runner Up - AOTY 2024 Winner',
+    bio: 'Natalie is an Australian Episode author, born on October 28th, who joined the community as a reader in 2016 before beginning her writing journey in 2022. Known for her captivating storytelling and emotionally engaging plots, she has built a strong presence through stories that balance intrigue, romance, and memorable character dynamics. Her work carries a compelling charm that has helped her stand out within the Episode community as a distinctive and promising voice.',
+    quote: '"With heartfelt tales like The Hitman’s Dilemma, Natalie has shown incredible versatility and depth as an author. Her ability to tell fascinating, emotionally rich stories is truly remarkable."',
+    quoteBy: '— Buddies Team',
+    info: [
+      ['Birthday',          '28th October'],
+      ['Nationality',       'Australian'],
+      ['Zodiac',            'Scorpio'],
+      ['Active on Episode', '2016 – present'],
+      ['Stories Published', '5'],
+      ['Website',           'nil'],
+    ],
+    infoLinks: {
+      'Website': '#',
+    },
+    stories: [
+      {
+        title:  'The Hitman’s Dilemma',
+        blurb:  'Carlos lives by the rule, no job goes undone. When a job that breaks his moral code comes into play. Will SHE be the one to break his rule?',
+        cover:  'https://episodebuddies3.wordpress.com/wp-content/uploads/2025/01/1000114172.jpg',
+        link:   'http://episodeinteractive.com/r/s/4709466802946048',
+      },
+      {
+        title:  'A Summer To Remember',
+        blurb:  'Billie has been holding onto her love for Nate for 6 years. Little does she know - so has he. When a twist of fate brings them back together, will they get their happy ever after?',
+        cover:  'https://episodebuddies3.wordpress.com/wp-content/uploads/2025/01/1000114171.jpg',
+        link:   'http://episodeinteractive.com/r/s/5476869347934208',
+      },
+      {
+        title:  'Just One Night',
+        blurb:  'All Ava dreamed of was to have a great love, but all that stands is a broken heart & broken dreams. When all hope is lost, could just one night change it all?',
+        cover:  'https://episodebuddies3.wordpress.com/wp-content/uploads/2025/01/1000114173.jpg',
+        link:   'http://episodeinteractive.com/s/5742100074135552',
+      },
+      {
+        title:  'It Can\'t Be You',
+        blurb:  'Matthew had been catfishing on a dating app without any worries, but what happens when a connection made leads him to meeting a person he thought he’d hate forever.',
+        cover:  'https://episodebuddies3.wordpress.com/wp-content/uploads/2025/01/1000114174.jpg',
+        link:   'http://episodeinteractive.com/s/5066589256318976',
+      },
+      {
+        title:  'Delivered To You',
+        blurb:  'Kristian; a florist delivery driver. Jett; his ex-nemisis in a coma. When a fake relationship starts & the truth unfolds, can they burn out the flame that once ignited their fiery past? ',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/04/482294269_638824085564301_9072504063651015613_n.jpg',
+        link:   'http://episodeinteractive.com/s/5467626417717248',
+      },
+      {
+        title:  'A Touch Of Fate',
+        blurb:  'Bound by fate, torn by magic. Scarlett & Alexander were wolf royalty, until a curse ersed their bond. Now vampires, can they reclaim their destiny before it’s gone?',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2026/04/550828319_2013604846129067_158440500212048641_n-1.png',
+        link:   'https://episodeinteractive.com/r/s/5108015158034432',
+      },
+    ],
+    achievements: [
+      '2nd Runner Up - Author of the Year 2024 (Buddies Support Hub)',
+      'Top 12 - Story of the Year 2024 (Hitman\'s Dilemma)',
+      'May Editors Pick 2024 (Episode shelf)',
+      'Summer Contest Winner 2024 (Episode shelf)',
+      'November Editors Pick 2024 (Episode shelf)',
+      'Garden Of Words 2025 (Episode shelf)'
+    ],
+  },
+
+  naliaelnira: {
+    name:    'Nalia Elnira',
+    handle:  '@nalia.author',
+    igLink:  'https://www.instagram.com/nalia.author/',
+    pfp:     'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/1000110561.webp',
+    titles:  ['3rd Runner Up - Author of the Year 2024'],
+    goldBadge: '3rd Runner Up - AOTY 2024 Winner',
+    bio: 'Nalia Elnira is a Romanian Episode author, born on July 12th, who joined the Episode community in 2018. Known for her reflective storytelling and emotionally resonant narratives, she has built a distinctive presence through stories that explore pain, healing, and personal growth. Beyond writing, she is also recognized for her creative eye within the community, offering visual design work that further highlights her artistic versatility. With a style that feels both thoughtful and heartfelt, Nalia has become a memorable voice on the platform.',
+    quote: '"Nalia\'s The Dove is a story that touches the soul, offering readers hope and the beauty of healing. Her talent for weaving such an impactful tale has left an everlasting impression on the community."',
+    quoteBy: '— Buddies Team',
+    info: [
+      ['Birthday',          '12th July'],
+      ['Nationality',       'Romanian'],
+      ['Zodiac',            'Cancer'],
+      ['Active on Episode', '2018 – present'],
+      ['Stories Published', '1'],
+      ['Website',           'msha.ke/nalia.elnira'],
+    ],
+    infoLinks: {
+      'Website': 'https://msha.ke/nalia.elnira',
+    },
+    stories: [
+      {
+        title:  'The Dove',
+        blurb:  'As a child of hope, your job is to heal souls in pain. But will you be able to cure HIM without sentencing yourself to death?',
+        cover:  'https://episodebuddiessotyaoty.wordpress.com/wp-content/uploads/2025/10/untitled-design-1.png',
+        link:   'https://episodeinteractive.com/s/i/6753623331504128',
+      },
+    ],
+    achievements: [
+      '3rd Runner Up - Author of the Year 2024 (Buddies Support Hub)',
+      '1st Runner Up - Story of the Year 2024 (The Dove)',
+      'Best Interactivity (Buddies Support Hub)',
+      'Best Profile Picture 2024 (Buddies Support Hub)',
+      'Talent or Curse (Episode contest winner)'
+    ],
+  },
+};
+
+// Wire up all images with class "author-trigger"
+document.querySelectorAll('.author-trigger').forEach(img => {
+  const key = img.getAttribute('data-author');
+  if (!key || !AM_AUTHORS[key]) return;
+  img.addEventListener('click', () => amOpen(key));
+  img.setAttribute('role', 'button');
+  img.setAttribute('tabindex', '0');
+  img.setAttribute('aria-label', 'View ' + AM_AUTHORS[key].name + ' profile');
+  img.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') amOpen(key); });
+});
+
+// Close on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') amClose();
+});
 </script>
+
+<div class="am-overlay" id="am-overlay" onclick="amHandleOverlayClick(event)">
+  <div class="am-box" id="am-box">
+    <button class="am-close" onclick="amClose()" aria-label="Close">✕</button>
+    <!-- Content is injected by JS -->
+  </div>
+</div>
 </body>
 </html>
